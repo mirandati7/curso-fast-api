@@ -26,7 +26,7 @@ async def post_hub(hub:HubSchema, db: AsyncSession = Depends(get_session)):
             return new_hub
                 
         except IntegrityError:
-            raise HTTPException(status_code= status.HTTP_406_NOT_ACCEPTABLE, detail= "Não foi possivel salvar esse hub")
+            raise HTTPException(status_code= status.HTTP_406_NOT_ACCEPTABLE, detail= "Não foi possivel salvar.")
 
 
 
