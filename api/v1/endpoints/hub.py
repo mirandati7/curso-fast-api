@@ -64,3 +64,4 @@ async def delete_hub(id:int):
     if id == 1:
         hub = 'deletar hub'
         print(hub)  
+
