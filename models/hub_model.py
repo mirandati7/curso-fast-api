@@ -6,4 +6,5 @@ class HubModel(settings.DBBaseModel):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(100), nullable=True)
+    endereco = Column(String(100), nullable=True)
 
