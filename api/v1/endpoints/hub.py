@@ -62,5 +62,5 @@ async def put_hub(id:int, hub: HubSchemaUP):
 @router.delete('/{id}', status_code= status.HTTP_204_NO_CONTENT)
 async def delete_hub(id:int):
     if id == 1:
-        hub = 'deletar hub'
+        hub = 'deletar hub teste de branch'
         print(hub)  
