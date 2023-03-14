@@ -50,7 +50,7 @@ async def get_hub(id: int, db: AsyncSession = Depends(get_session)):
         if hub:
             return hub
         else:
-            raise HTTPException(detail="Hub não encontrado", status_code=status.HTTP_404_NOT_FOUND)    
+            raise HTTPException(detail="Hub não", status_code=status.HTTP_404_NOT_FOUND)
         
 
 
