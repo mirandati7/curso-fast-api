@@ -7,6 +7,7 @@ from schemas.hub_schema import HubSchema, HubSchemaUP
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
+from fastapi import Response
 
 from core.deps import get_session
 
@@ -54,13 +55,30 @@ async def get_hub(id: int, db: AsyncSession = Depends(get_session)):
 
 
 @router.put('/{id}', status_code= status.HTTP_202_ACCEPTED,response_model=HubSchema)
-async def put_hub(id:int, hub: HubSchemaUP):
-    if id == 1:
-        hub.nome ="HUB Alterado"        
-    return hub
+async def put_hub(id:int, new_hub: HubSchemaUP, db: AsyncSession = Depends(get_session)):
+    async with db as session:        
+        query = select(HubModel).filter(HubModel.id == id)
+        result = await session.execute(query)
+        hub_up: HubSchema = result.scalars().unique().one_or_none()
 
+        if hub_up:
+            hub_up.nome = new_hub.nome
+            await session.commit()
+            return hub_up
+        else:
+            raise HTTPException(detail="Hub não encontrado", status_code=status.HTTP_404_NOT_FOUND)    
+        
 @router.delete('/{id}', status_code= status.HTTP_204_NO_CONTENT)
-async def delete_hub(id:int):
-    if id == 1:
-        hub = 'deletar hub'
-        print(hub)  
+async def delete_hub(id:int, db: AsyncSession = Depends(get_session)):
+    async with db as session:        
+        query = select(HubModel).filter(HubModel.id == id)
+        result = await session.execute(query)
+        hub_del: HubSchema = result.scalars().unique().one_or_none()
+
+        if hub_del:
+            await session.delete(hub_del)
+            await session.commit()
+            return Response(status_code=status.HTTP_204_NO_CONTENT, media_type="deletado!!")
+        else:
+            raise HTTPException(detail="Hub não encontrado", status_code=status.HTTP_404_NOT_FOUND)    
+        
