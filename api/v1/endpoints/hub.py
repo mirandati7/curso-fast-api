@@ -66,7 +66,7 @@ async def put_hub(id:int, new_hub: HubSchemaUP, db: AsyncSession = Depends(get_s
             await session.commit()
             return hub_up
         else:
-            raise HTTPException(detail="Hub não encontrado", status_code=status.HTTP_404_NOT_FOUND)    
+            raise HTTPException(detail="Hub não encontrado!!!!!!!!!", status_code=status.HTTP_404_NOT_FOUND)    
         
 @router.delete('/{id}', status_code= status.HTTP_204_NO_CONTENT)
 async def delete_hub(id:int, db: AsyncSession = Depends(get_session)):
